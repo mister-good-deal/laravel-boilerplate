@@ -2,14 +2,16 @@
 
 ## Front
 
-- gulp 4 integration
-    - bootstrap 4
-    - bower
-    - less
-    - saas ?
-    - requirejs
-    - lodash
-    - jsdoc
+- gulp 4
+- bower
+- requirejs
+- bootstrap 4
+- lodash
+- jQuery
+- less
+- saas ?
+- eslint
+- jsdoc
 - ECMA6 (babel ?)
 - gitlab-ci
 
