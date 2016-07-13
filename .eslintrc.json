@@ -1,29 +1,78 @@
 {
-  "env"          : {
-    "browser": true,
-    "es6"    : true,
-    "node"   : true
-  },
-  "extends"      : "eslint:recommended",
-  "parserOptions": {
-    "sourceType": "module"
-  },
-  "rules"        : {
-    "indent"         : [
-      "error",
-      4
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes"         : [
-      "error",
-      "single"
-    ],
-    "semi"           : [
-      "error",
-      "always"
-    ]
-  }
+    "env"          : {
+        "browser": true,
+        "es6"    : true,
+        "node"   : true
+    },
+    "extends"      : "eslint:all",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType" : "module"
+    },
+    "parser"       : "babel-eslint",
+    "rules"        : {
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes"         : [
+            "error",
+            "single"
+        ],
+        "semi"           : [
+            "error",
+            "always"
+        ],
+        "max-len"        : [
+            "error",
+            120
+        ],
+        "padded-blocks"  : [
+            "error",
+            "never"
+        ],
+        "func-style"     : [
+            "error",
+            "declaration"
+        ],
+        "indent"         : [
+            "warn",
+            4,
+            {
+                "VariableDeclarator": {
+                    "var"  : 2,
+                    "let"  : 2,
+                    "const": 3
+                }
+            }
+        ],
+        "no-multi-spaces": [
+            "error",
+            {
+                "exceptions": {
+                    "Property"          : true,
+                    "VariableDeclarator": true,
+                    "ImportDeclaration" : true
+                }
+            }
+        ],
+        "key-spacing"    : [
+            "warn",
+            {
+                "singleLine": {
+                    "beforeColon": false,
+                    "afterColon" : true
+                },
+                "multiLine" : {
+                    "beforeColon": false,
+                    "afterColon" : true,
+                    "align"      : "colon"
+                }
+            }
+        ],
+        "dot-location"   : [
+            "error",
+            "property"
+        ]
+    }
 }

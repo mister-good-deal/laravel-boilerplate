@@ -11,3 +11,4 @@ Homestead.json
 !/resources/assets/sass/vendors/_variables.scss
 /.vagrant/
 /composer.lock
+/public/style.css
