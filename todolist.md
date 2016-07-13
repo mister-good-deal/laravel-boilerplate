@@ -13,9 +13,14 @@
 - eslint
 - jsdoc
 - ECMA6 (babel ?)
-- gitlab-ci
+
 
 ## Back
 
-- users manager integration
-- icicle (websocket)
+- authentication (socialize)
+- icicle (websocket) (with service provider ?)
+
+## Other
+
+- gitlab-ci
+- SonerQube
