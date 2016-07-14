@@ -1,8 +1,8 @@
 /**
- * Gulp 4 implementation
+ * Gulp 4 implementation using es6
  **/
 
-import _                from 'lodash';
+import childProcess     from 'child_process';
 import gulp             from 'gulp';
 import gulpAutoprefixer from 'gulp-autoprefixer';
 import gulpBower        from 'gulp-bower';
@@ -10,6 +10,7 @@ import gulpEslint       from 'gulp-eslint';
 import gulpRename       from 'gulp-rename';
 import gulpSass         from 'gulp-sass';
 import gulpSourcemaps   from 'gulp-sourcemaps';
+import map              from 'lodash/map';
 import path             from 'path';
 
 const bowerDirectory = 'bower_components',
@@ -93,7 +94,7 @@ export function bowerDownload () {
  * @returns {*} Gulp callback
  */
 export function bowerMoveJs (done) {
-    _.map(paths.vendors.js, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
+    map(paths.vendors.js, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
 
     return done();
 }
@@ -105,7 +106,7 @@ export function bowerMoveJs (done) {
  * @returns {*} Gulp callback
  */
 export function bowerMoveSass (done) {
-    _.map(paths.vendors.sass, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
+    map(paths.vendors.sass, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
 
     return done();
 }
@@ -117,7 +118,7 @@ export function bowerMoveSass (done) {
  * @returns {*} Gulp callback
  */
 export function bowerMoveFonts (done) {
-    _.map(paths.vendors.fonts, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
+    map(paths.vendors.fonts, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
 
     return done();
 }
@@ -130,7 +131,7 @@ export function bowerMoveFonts (done) {
 gulp.task('bower', gulp.series(bowerDownload, gulp.parallel(bowerMoveJs, bowerMoveSass, bowerMoveFonts)));
 
 /* --------------------------------------------------------------------------
- * Sass
+ * Sass / js build
  * --------------------------------------------------------------------------
  */
 
@@ -162,6 +163,21 @@ export function sassProd () {
                .pipe(gulp.dest(paths.sass.dest));
 }
 
+/**
+ * Compile and optimize js sources in one file app.js using requireJs
+ *
+ * @param {Function} done Callback to sync
+ * @returns {*} Gulp callback
+ */
+export function jsBuild (done) {
+    console.log(childProcess.execSync(
+        'cd ./public&node ../node_modules/requirejs/bin/r.js -o app.build.js',
+        {'cwd': __dirname}
+    ).toString());
+
+    return done();
+}
+
 /* --------------------------------------------------------------------------
  * Linter
  * --------------------------------------------------------------------------
@@ -178,3 +194,10 @@ export function eslint () {
                .pipe(gulpEslint.format())
                .pipe(gulpEslint.failAfterError());
 }
+
+/* --------------------------------------------------------------------------
+ * jsDoc
+ * --------------------------------------------------------------------------
+ */
+
+

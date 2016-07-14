@@ -17,6 +17,7 @@
         "gulp-rename"        : "^1.2.2",
         "gulp-sass"          : "^2.3.2",
         "gulp-sourcemaps"    : "^1.6.0",
+        "requirejs"          : "latest",
         "lodash"             : "latest"
     }
 }

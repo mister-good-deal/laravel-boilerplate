@@ -11,7 +11,7 @@
     },
     "parser"       : "babel-eslint",
     "rules"        : {
-        "id-length"      : [
+        "id-length"           : [
             "error",
             {
                 "min"       : 2,
@@ -21,31 +21,31 @@
                 ]
             }
         ],
-        "linebreak-style": [
+        "linebreak-style"     : [
             "error",
             "unix"
         ],
-        "quotes"         : [
+        "quotes"              : [
             "error",
             "single"
         ],
-        "semi"           : [
+        "semi"                : [
             "error",
             "always"
         ],
-        "max-len"        : [
+        "max-len"             : [
             "error",
             120
         ],
-        "padded-blocks"  : [
+        "padded-blocks"       : [
             "error",
             "never"
         ],
-        "func-style"     : [
+        "func-style"          : [
             "error",
             "declaration"
         ],
-        "indent"         : [
+        "indent"              : [
             "warn",
             4,
             {
@@ -56,7 +56,7 @@
                 }
             }
         ],
-        "no-multi-spaces": [
+        "no-multi-spaces"     : [
             "error",
             {
                 "exceptions": {
@@ -66,7 +66,7 @@
                 }
             }
         ],
-        "key-spacing"    : [
+        "key-spacing"         : [
             "warn",
             {
                 "singleLine": {
@@ -80,9 +80,12 @@
                 }
             }
         ],
-        "dot-location"   : [
+        "dot-location"        : [
             "error",
             "property"
-        ]
+        ],
+        "no-console"          : "off",
+        "no-sync"             : "off",
+        "object-curly-newline": "off"
     }
 }
