@@ -2,41 +2,71 @@
  * Gulp 4 implementation
  **/
 
+import _              from 'lodash';
 import gulp           from 'gulp';
 import gulpBower      from 'gulp-bower';
+import gulpEslint     from 'gulp-eslint';
 import gulpRename     from 'gulp-rename';
 import gulpSass       from 'gulp-sass';
 import gulpSourcemaps from 'gulp-sourcemaps';
 import path           from 'path';
 
-const bowerDirectory = path.join('.', 'bower_components'),
+const bowerDirectory = 'bower_components',
       paths          = {
           'sass'   : {
-              'src' : path.join('.', 'resources/assets/sass/app.scss'),
-              'dest': path.join('.', 'public')
+              'src' : 'resources/assets/sass/app.scss',
+              'dest': 'public'
           },
           'js'     : {
-              'src' : `${path.join('.', 'public/js')}/**/*.js`,
-              'dest': path.join('.', 'public')
+              'src' : [
+                  'public/js/**/*.js',
+                  '!public/js/vendors/**',
+                  'gulpfile.babel.js'
+              ],
+              'dest': 'public'
           },
           'vendors': {
-              'js'  : {
-                  'src' : [
-                      path.join(bowerDirectory, 'bootstrap/dist/js/bootstrap.js'),
-                      path.join(bowerDirectory, 'domReady/domReady.js'),
-                      path.join(bowerDirectory, 'jquery/dist/jquery.js'),
-                      path.join(bowerDirectory, 'lodash/dist/lodash.js'),
-                      path.join(bowerDirectory, 'requirejs/require.js')
-                  ],
-                  'dest': path.join('.', 'public/js/vendors')
-              },
-              'sass': {
-                  'src' : [
-                      `${path.join(bowerDirectory, 'bootstrap/scss')}/**/*.scss`,
-                      `!${path.join(bowerDirectory, 'bootstrap/scss/_variables.scss')}`
-                  ],
-                  'dest': path.join('.', 'resources/assets/sass/vendors')
-              }
+              'js'   : [
+                  {
+                      'src' : path.join(bowerDirectory, 'bootstrap/dist/js/bootstrap.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'domReady/domReady.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'jquery/dist/jquery.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'lodash/dist/lodash.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'requirejs/require.js'),
+                      'dest': 'public/js/vendors'
+                  }
+              ],
+              'sass' : [
+                  {
+                      'src' : [
+                          `${path.join(bowerDirectory, 'bootstrap/scss')}/**/*.scss`,
+                          `!${path.join(bowerDirectory, 'bootstrap/scss/_variables.scss')}`
+                      ],
+                      'dest': 'resources/assets/sass/vendors/bootstrap'
+                  },
+                  {
+                      'src' : `${path.join(bowerDirectory, 'font-awesome/scss')}/**/*.scss`,
+                      'dest': 'resources/assets/sass/vendors/font-awesome'
+                  }
+              ],
+              'fonts': [
+                  {
+                      'src' : path.join(bowerDirectory, 'font-awesome/fonts/**'),
+                      'dest': 'resources/assets/fonts'
+                  }
+              ]
           }
       };
 
@@ -58,19 +88,37 @@ export function bowerDownload () {
 /**
  * Move js vendors files into public/js/vendor directory
  *
+ * @param {Function} done Callback to sync
  * @returns {*} Gulp callback
  */
-export function bowerMoveJs () {
-    return gulp.src(paths.vendors.js.src).pipe(gulp.dest(paths.vendors.js.dest));
+export function bowerMoveJs (done) {
+    _.map(paths.vendors.js, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
+
+    return done();
 }
 
 /**
  * Move sass vendors files into resources/assets/vendor directory
  *
+ * @param {Function} done Callback to sync
  * @returns {*} Gulp callback
  */
-export function bowerMoveSass () {
-    return gulp.src(paths.vendors.sass.src).pipe(gulp.dest(paths.vendors.sass.dest));
+export function bowerMoveSass (done) {
+    _.map(paths.vendors.sass, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
+
+    return done();
+}
+
+/**
+ * Move fonts vendors files into resources/assets/fonts directory
+ *
+ * @param {Function} done Callback to sync
+ * @returns {*} Gulp callback
+ */
+export function bowerMoveFonts (done) {
+    _.map(paths.vendors.fonts, (vendor) => gulp.src(vendor.src).pipe(gulp.dest(vendor.dest)));
+
+    return done();
 }
 
 /**
@@ -78,7 +126,7 @@ export function bowerMoveSass () {
  *
  * @returns {*} Gulp callback
  */
-gulp.task('bower', gulp.series(bowerDownload, gulp.parallel(bowerMoveJs, bowerMoveSass)));
+gulp.task('bower', gulp.series(bowerDownload, gulp.parallel(bowerMoveJs, bowerMoveSass, bowerMoveFonts)));
 
 /* --------------------------------------------------------------------------
  * Sass
@@ -109,4 +157,21 @@ export function sassProd () {
                .pipe(gulpSass({'outputStyle': 'compressed'}).on('error', gulpSass.logError))
                .pipe(gulpRename('style.css'))
                .pipe(gulp.dest(paths.sass.dest));
+}
+
+/* --------------------------------------------------------------------------
+ * Linter
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * Lint js files with eslint linter
+ *
+ * @returns {*} Gulp callback
+ */
+export function eslint () {
+    return gulp.src(paths.js.src)
+               .pipe(gulpEslint())
+               .pipe(gulpEslint.format())
+               .pipe(gulpEslint.failAfterError());
 }

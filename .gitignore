@@ -8,7 +8,8 @@ Homestead.json
 /bower_components/
 /public/js/vendors/
 /resources/assets/sass/vendors/
-!/resources/assets/sass/vendors/_variables.scss
+!/resources/assets/sass/vendors/bootstrap/_variables.scss
 /.vagrant/
 /composer.lock
 /public/style.css
+/resources/assets/fonts/
