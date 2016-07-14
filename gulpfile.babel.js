@@ -2,14 +2,15 @@
  * Gulp 4 implementation
  **/
 
-import _              from 'lodash';
-import gulp           from 'gulp';
-import gulpBower      from 'gulp-bower';
-import gulpEslint     from 'gulp-eslint';
-import gulpRename     from 'gulp-rename';
-import gulpSass       from 'gulp-sass';
-import gulpSourcemaps from 'gulp-sourcemaps';
-import path           from 'path';
+import _                from 'lodash';
+import gulp             from 'gulp';
+import gulpAutoprefixer from 'gulp-autoprefixer';
+import gulpBower        from 'gulp-bower';
+import gulpEslint       from 'gulp-eslint';
+import gulpRename       from 'gulp-rename';
+import gulpSass         from 'gulp-sass';
+import gulpSourcemaps   from 'gulp-sourcemaps';
+import path             from 'path';
 
 const bowerDirectory = 'bower_components',
       paths          = {
@@ -142,6 +143,7 @@ export function sassDev () {
     return gulp.src(paths.sass.src, {'base': 'src'})
                .pipe(gulpSourcemaps.init())
                .pipe(gulpSass({'outputStyle': 'compressed'}).on('error', gulpSass.logError))
+               .pipe(gulpAutoprefixer())
                .pipe(gulpSourcemaps.write())
                .pipe(gulpRename('style.css'))
                .pipe(gulp.dest(paths.sass.dest));
@@ -155,6 +157,7 @@ export function sassDev () {
 export function sassProd () {
     return gulp.src(paths.sass.src, {'base': 'src'})
                .pipe(gulpSass({'outputStyle': 'compressed'}).on('error', gulpSass.logError))
+               .pipe(gulpAutoprefixer())
                .pipe(gulpRename('style.css'))
                .pipe(gulp.dest(paths.sass.dest));
 }
