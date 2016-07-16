@@ -1,7 +1,5 @@
 /**
  * Gulp 4 implementation using es6
- *
- * @todo Fix the gulp IDE problem (seems to be not a gulp file problem ...)
  **/
 
 import childProcess     from 'child_process';
