@@ -1,0 +1,92 @@
+{
+    "env"          : {
+        "browser": true,
+        "es6"    : true,
+        "node"   : true
+    },
+    "extends"      : "eslint:all",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType" : "module"
+    },
+    "parser"       : "babel-eslint",
+    "rules"        : {
+        "id-length"           : [
+            "error",
+            {
+                "min"       : 2,
+                "exceptions": [
+                    "_",
+                    "$",
+                    "i"
+                ]
+            }
+        ],
+        "linebreak-style"     : [
+            "error",
+            "unix"
+        ],
+        "quotes"              : [
+            "error",
+            "single"
+        ],
+        "semi"                : [
+            "error",
+            "always"
+        ],
+        "max-len"             : [
+            "error",
+            120
+        ],
+        "padded-blocks"       : [
+            "error",
+            "never"
+        ],
+        "func-style"          : [
+            "error",
+            "declaration"
+        ],
+        "indent"              : [
+            "warn",
+            4,
+            {
+                "VariableDeclarator": {
+                    "var"  : 2,
+                    "let"  : 2,
+                    "const": 3
+                }
+            }
+        ],
+        "no-multi-spaces"     : [
+            "error",
+            {
+                "exceptions": {
+                    "Property"          : true,
+                    "VariableDeclarator": true,
+                    "ImportDeclaration" : true
+                }
+            }
+        ],
+        "key-spacing"         : [
+            "warn",
+            {
+                "singleLine": {
+                    "beforeColon": false,
+                    "afterColon" : true
+                },
+                "multiLine" : {
+                    "beforeColon": false,
+                    "afterColon" : true,
+                    "align"      : "colon"
+                }
+            }
+        ],
+        "dot-location"        : [
+            "error",
+            "property"
+        ],
+        "no-console"          : "off",
+        "no-sync"             : "off",
+        "object-curly-newline": "off"
+    }
+}

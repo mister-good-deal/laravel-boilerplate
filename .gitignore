@@ -5,4 +5,12 @@ Homestead.yaml
 Homestead.json
 .env
 .idea
-
+/bower_components/
+/public/js/vendors/
+/resources/assets/sass/vendors/
+!/resources/assets/sass/vendors/bootstrap/_variables.scss
+/.vagrant/
+/composer.lock
+/public/style.css
+/resources/assets/fonts/
+/public/dist/

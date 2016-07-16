@@ -1,0 +1,31 @@
+{
+    "name"        : "laravel-boilerplate",
+    "description" : "Laravel boilerplate for sweet front integration / automation",
+    "authors"     : [
+        "Romain Laneuville"
+    ],
+    "license"     : "MIT",
+    "keywords"    : [
+        "Laravel",
+        "js",
+        "front",
+        "gulp"
+    ],
+    "homepage"    : "http://gitlab.laneuville.me/Laneuville/laravel-boilerplate",
+    "moduleType"  : [
+        "es6"
+    ],
+    "dependencies": {
+        "jquery"      : "^2.2.4",
+        "lodash"      : "^4.13.1",
+        "bootstrap"   : "4.0.0-alpha.2",
+        "font-awesome": "latest"
+    },
+    "ignore"      : [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}
