@@ -4,12 +4,10 @@
 
 - gulp 4
 - bower
-- requirejs
 - bootstrap 4
 - lodash
 - jQuery
-- less
-- saas ?
+- saas 
 - eslint
 - jsdoc
 - ECMA6 (babel ?)

@@ -24,7 +24,7 @@ const bowerDirectory = 'bower_components',
       paths          = {
           'sass'   : {
               'src' : 'resources/assets/sass/app.scss',
-              'dest': 'public'
+              'dest': 'public/dist'
           },
           'js'     : {
               'src' : [
@@ -140,7 +140,7 @@ export function bowerClean () {
 }
 
 /**
- * Wrapper for bowerDownload then bowerMoveJs and bowerMoveSass
+ * Wrapper for bowerDownload then bowerClean then bowerMoveJs, bowerMoveSass and bowerMoveFonts
  *
  * @returns {*} Gulp callback
  */
@@ -217,7 +217,7 @@ export function uglify (done) {
 }
 
 /**
- * Wrapper for generating public/dist/app.js
+ * Wrapper for generating public/dist/app.js using babelTranspile then uglify
  *
  * @returns {*} Gulp callback
  */
