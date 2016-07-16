@@ -13,3 +13,4 @@ Homestead.json
 /composer.lock
 /public/style.css
 /resources/assets/fonts/
+/public/dist/

@@ -2,16 +2,20 @@
  * Gulp 4 implementation using es6
  **/
 
-import childProcess     from 'child_process';
+import del              from 'del';
 import gulp             from 'gulp';
 import gulpAutoprefixer from 'gulp-autoprefixer';
+import gulpBabel        from 'gulp-babel';
 import gulpBower        from 'gulp-bower';
+import gulpConcat       from 'gulp-concat';
 import gulpEslint       from 'gulp-eslint';
 import gulpRename       from 'gulp-rename';
 import gulpSass         from 'gulp-sass';
 import gulpSourcemaps   from 'gulp-sourcemaps';
+import gulpUglify       from 'gulp-uglify';
 import map              from 'lodash/map';
 import path             from 'path';
+import pump             from 'pump';
 
 const bowerDirectory = 'bower_components',
       paths          = {
@@ -22,10 +26,9 @@ const bowerDirectory = 'bower_components',
           'js'     : {
               'src' : [
                   'public/js/**/*.js',
-                  '!public/js/vendors/**',
-                  'gulpfile.babel.js'
+                  '!public/js/vendors/**'
               ],
-              'dest': 'public'
+              'dest': 'public/dist'
           },
           'vendors': {
               'js'   : [
@@ -34,19 +37,11 @@ const bowerDirectory = 'bower_components',
                       'dest': 'public/js/vendors'
                   },
                   {
-                      'src' : path.join(bowerDirectory, 'domReady/domReady.js'),
-                      'dest': 'public/js/vendors'
-                  },
-                  {
                       'src' : path.join(bowerDirectory, 'jquery/dist/jquery.js'),
                       'dest': 'public/js/vendors'
                   },
                   {
                       'src' : path.join(bowerDirectory, 'lodash/dist/lodash.js'),
-                      'dest': 'public/js/vendors'
-                  },
-                  {
-                      'src' : path.join(bowerDirectory, 'requirejs/require.js'),
                       'dest': 'public/js/vendors'
                   }
               ],
@@ -124,11 +119,35 @@ export function bowerMoveFonts (done) {
 }
 
 /**
+ * Clean bower dependencies in js, fonts and sass source files (not in bower_components)
+ *
+ * @returns {*} Gulp callback
+ */
+export function bowerClean () {
+    return del(
+        [
+            'public/js/vendors',
+            'resources/assets/fonts',
+            'resources/assets/sass/vendors/**',
+            '!resources/assets/sass/vendors',
+            '!resources/assets/sass/vendors/bootstrap',
+            '!resources/assets/sass/vendors/bootstrap/_variables.scss'
+        ]
+    );
+}
+
+/**
  * Wrapper for bowerDownload then bowerMoveJs and bowerMoveSass
  *
  * @returns {*} Gulp callback
  */
-gulp.task('bower', gulp.series(bowerDownload, gulp.parallel(bowerMoveJs, bowerMoveSass, bowerMoveFonts)));
+gulp.task(
+    'bower',
+    gulp.series(
+        bowerDownload,
+        gulp.series(bowerClean, gulp.parallel(bowerMoveJs, bowerMoveSass, bowerMoveFonts))
+    )
+);
 
 /* --------------------------------------------------------------------------
  * Sass / js build
@@ -164,19 +183,42 @@ export function sassProd () {
 }
 
 /**
- * Compile and optimize js sources in one file app.js using requireJs
+ * Transpile all js srource files from es6 to es5 using babel and concat them into public/dist/app.js file
+ *
+ * @returns {*} Gulp callback
+ */
+export function babelTranspile () {
+    return gulp.src(paths.js.src)
+               .pipe(gulpSourcemaps.init())
+               .pipe(gulpBabel({'presets': ['es2015']}))
+               .pipe(gulpConcat('app.js'))
+               .pipe(gulpSourcemaps.write('.'))
+               .pipe(gulp.dest(paths.js.dest));
+}
+
+/**
+ * Uglify public/dist/app.js using UglifyJS lib
  *
  * @param {Function} done Callback to sync
  * @returns {*} Gulp callback
  */
-export function jsBuild (done) {
-    console.log(childProcess.execSync(
-        'cd ./public&node ../node_modules/requirejs/bin/r.js -o app.build.js',
-        {'cwd': __dirname}
-    ).toString());
-
-    return done();
+export function uglify (done) {
+    pump(
+        [
+            gulp.src(path.join(paths.js.dest, 'app.js')),
+            gulpUglify(),
+            gulp.dest(paths.js.dest)
+        ],
+        done
+    );
 }
+
+/**
+ * Wrapper for generating public/dist/app.js
+ *
+ * @returns {*} Gulp callback
+ */
+gulp.task('buildJs', gulp.series(babelTranspile, uglify));
 
 /* --------------------------------------------------------------------------
  * Linter
