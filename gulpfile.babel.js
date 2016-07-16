@@ -1,7 +1,10 @@
 /**
  * Gulp 4 implementation using es6
+ *
+ * @todo Fix the gulp IDE problem (seems to be not a gulp file problem ...)
  **/
 
+import childProcess     from 'child_process';
 import del              from 'del';
 import gulp             from 'gulp';
 import gulpAutoprefixer from 'gulp-autoprefixer';
@@ -242,4 +245,21 @@ export function eslint () {
  * --------------------------------------------------------------------------
  */
 
-
+/**
+ * Generate the jsdoc in storage/app/public/jsDoc
+ *
+ * @todo check where to put the documentation based on laravel architecture (storage/app/public/jsDoc)
+ *
+ * @param {Function} done Callback to sync
+ * @returns {*} Gulp callback
+ */
+export function jsdoc (done) {
+    childProcess.exec(
+        '"./node_modules/.bin/jsdoc"' +
+        ' -c jsdocConfig.json' +
+        ' -r -t ./node_modules/ink-docstrap/template --verbose', (err, output) => {
+            console.log(output);
+            done(err);
+        }
+    );
+}
