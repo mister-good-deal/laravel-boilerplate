@@ -1,5 +1,26 @@
 {
-    "private"        : true,
+    "name": "laravel-boileplate",
+    "version": "1.0.0",
+    "description": "Laravel 5.3 with a nice front integration (gulp4, bootstrap4, requirejs, ...) that fit the framework",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ZiperRom1/laravel-boilerplate"
+    },
+    "keywords": [
+        "laravel",
+        "laravel-5",
+        "gulp",
+        "gulp-4",
+        "bootstrap",
+        "bootstrap-4",
+        "es6",
+        "babel",
+        "requirejs",
+        "bower",
+        "front"
+    ],
+    "author": "Romain Laneuville",
+    "license": "MIT",
     "devDependencies": {
         "babel-eslint"       : "^6.1.2",
         "babel-plugin-lodash": "^3.2.2",
