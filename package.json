@@ -1,5 +1,5 @@
 {
-    "name": "laravel-boileplate",
+    "name": "laravel-boilerplate",
     "version": "1.0.0",
     "description": "Laravel 5.3 with a nice front integration (gulp4, bootstrap4, requirejs, ...) that fit the framework",
     "repository": {
