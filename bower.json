@@ -13,13 +13,16 @@
     ],
     "homepage"    : "http://gitlab.laneuville.me/Laneuville/laravel-boilerplate",
     "moduleType"  : [
-        "es6"
+        "amd"
     ],
     "dependencies": {
-        "jquery"      : "^2.2.4",
-        "lodash"      : "^4.13.1",
-        "bootstrap"   : "4.0.0-alpha.2",
-        "font-awesome": "latest"
+        "jquery"         : "^2.2.4",
+        "lodash"         : "^4.13.1",
+        "bootstrap"      : "4.0.0-alpha.2",
+        "font-awesome"   : "^4.6.3",
+        "requirejs-babel": "^0.0.9",
+        "requirejs"      : "^2.2.0",
+        "domReady"       : "^2.0.1"
     },
     "ignore"      : [
         "**/.*",

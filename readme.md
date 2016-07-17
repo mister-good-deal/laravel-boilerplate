@@ -20,13 +20,14 @@ This project is based on the Laravel5 framework. The boilerplate which was added
 - [gulp](https://github.com/gulpjs/gulp/tree/4.0) (version 4)
 - [bower](https://bower.io/)
 - [es6](http://es6-features.org) (with [babel](https://babeljs.io/) transpiler)
+- [requirejs](http://requirejs.org/)
 - [sass](http://sass-lang.com/) full integration with vendors dynamic dependecies
 - [bootstrap 4](http://v4-alpha.getbootstrap.com/) (sass integrated)
 - [font Awesome](http://fontawesome.io/) (sass integrated)
 - [eslint](http://eslint.org/)
 - [jsdoc](http://usejsdoc.org/)
 
-To add a library, add it into `bower.json` file.
+To add a library, add it into `bower.json` file and into `public/js/app.config.js => paths`.
 
 Then set js / sass / fonts required files for your new external lib into `paths` const declaration L.24 in `gulp.babel.js`
 
@@ -37,6 +38,8 @@ All js vendors files are imported in `public/js/vendors` directory.
 All scss vendors files are imported in `resources/assets/sass/vendors` directory.
 
 All fonts vendors files are imported in `resources/assets/fonts` directory.
+
+*Note: To use an es6 module, add `es6!your-es6-module` in your require|define call*
 
 ### Gulp integration
 
@@ -58,9 +61,7 @@ Gulp tasks:
 - Sass / js build
     - **sassDev** *(Compile sass files and generate map in .css result file)*
     - **sassProd** *(Compile sass files in a .css file)*
-    - **babelTranspile** *(Transpile all js srource files from es6 to es5 using babel and concat them into public/dist/app.js file)*
-    - **uglify** *(Uglify public/dist/app.js using UglifyJS lib)*
-    - **buildJs** *(Wrapper for generating public/dist/app.js using babelTranspile then uglify)*
+    - **buildJs** *(Build the js source files into public/dist/app.js using requirejs and the requirejs optimizer)*
 - Linter
     - **eslint** *(Lint js files with eslint linter)*
 - jsDoc
