@@ -1,4 +1,4 @@
-requirejs.config(
+require.config(
     {
         'paths' : {
             'require'  : 'vendors/require',
@@ -6,12 +6,13 @@ requirejs.config(
             'es6'      : 'vendors/requirejs-babel/es6',
             'babel'    : 'vendors/requirejs-babel/babel-5.8.34.min',
             'bootstrap': 'vendors/bootstrap',
+            'tether'   : 'vendors/tether',
             'jquery'   : 'vendors/jquery',
             'lodash'   : 'vendors/lodash'
         },
         'shim'  : {
             'bootstrap': {
-                'deps': ['jquery']
+                'deps': ['jquery', 'tether']
             }
         },
         'config': {
@@ -20,4 +21,4 @@ requirejs.config(
     }
 );
 
-requirejs(['app']);
+require(['app']);

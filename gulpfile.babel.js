@@ -34,6 +34,10 @@ const bowerDirectory = 'bower_components',
                       'dest': 'public/js/vendors'
                   },
                   {
+                      'src' : path.join(bowerDirectory, 'tether/dist/js/tether.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
                       'src' : path.join(bowerDirectory, 'jquery/dist/jquery.js'),
                       'dest': 'public/js/vendors'
                   },
