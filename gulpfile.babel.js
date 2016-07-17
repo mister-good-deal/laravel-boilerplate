@@ -196,7 +196,7 @@ export function sassProd () {
 }
 
 /**
- * Build the js source files into public/dist/app.js
+ * Build the js source files into public/dist/app.js using requirejs and the requirejs optimizer
  *
  * @param {Function} done Callback to sync
  * @returns {*} Gulp callback
