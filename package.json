@@ -1,7 +1,7 @@
 {
     "name": "laravel-boilerplate",
-    "version": "1.0.0",
-    "description": "Laravel 5.3 with a nice front integration (gulp4, bootstrap4, requirejs, ...) that fit the framework",
+    "version": "1.0.1",
+    "description": "Laravel 5.2 with a nice front integration (gulp4, bootstrap4, requirejs, ...) that fit the framework",
     "repository": {
         "type": "git",
         "url": "https://github.com/ZiperRom1/laravel-boilerplate"
