@@ -6,17 +6,13 @@ import childProcess     from 'child_process';
 import del              from 'del';
 import gulp             from 'gulp';
 import gulpAutoprefixer from 'gulp-autoprefixer';
-import gulpBabel        from 'gulp-babel';
 import gulpBower        from 'gulp-bower';
-import gulpConcat       from 'gulp-concat';
 import gulpEslint       from 'gulp-eslint';
 import gulpRename       from 'gulp-rename';
 import gulpSass         from 'gulp-sass';
 import gulpSourcemaps   from 'gulp-sourcemaps';
-import gulpUglify       from 'gulp-uglify';
 import map              from 'lodash/map';
 import path             from 'path';
-import pump             from 'pump';
 
 const bowerDirectory = 'bower_components',
       paths          = {
@@ -43,6 +39,22 @@ const bowerDirectory = 'bower_components',
                   },
                   {
                       'src' : path.join(bowerDirectory, 'lodash/dist/lodash.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'requirejs/require.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'requirejs-babel/babel-5.8.34.min.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'requirejs-babel/es6.js'),
+                      'dest': 'public/js/vendors'
+                  },
+                  {
+                      'src' : path.join(bowerDirectory, 'domReady/domReady.js'),
                       'dest': 'public/js/vendors'
                   }
               ],
@@ -184,42 +196,20 @@ export function sassProd () {
 }
 
 /**
- * Transpile all js srource files from es6 to es5 using babel and concat them into public/dist/app.js file
- *
- * @returns {*} Gulp callback
- */
-export function babelTranspile () {
-    return gulp.src(paths.js.src)
-               .pipe(gulpSourcemaps.init())
-               .pipe(gulpBabel({'presets': ['es2015']}))
-               .pipe(gulpConcat('app.js'))
-               .pipe(gulpSourcemaps.write('.'))
-               .pipe(gulp.dest(paths.js.dest));
-}
-
-/**
- * Uglify public/dist/app.js using UglifyJS lib
+ * Build the js source files into public/dist/app.js
  *
  * @param {Function} done Callback to sync
  * @returns {*} Gulp callback
  */
-export function uglify (done) {
-    pump(
-        [
-            gulp.src(path.join(paths.js.dest, 'app.js')),
-            gulpUglify(),
-            gulp.dest(paths.js.dest)
-        ],
-        done
-    );
+export function buildJs (done) {
+    childProcess.exec(
+        'cd ./public/js' +
+        '&node ../../node_modules/requirejs/bin/r.js -o app.build.js',
+        (err) => {
+            done(err);
+        }
+    ).stdout.on('data', (data) => console.log(data));
 }
-
-/**
- * Wrapper for generating public/dist/app.js using babelTranspile then uglify
- *
- * @returns {*} Gulp callback
- */
-gulp.task('buildJs', gulp.series(babelTranspile, uglify));
 
 /* --------------------------------------------------------------------------
  * Linter
@@ -255,9 +245,9 @@ export function jsdoc (done) {
     childProcess.exec(
         '"./node_modules/.bin/jsdoc"' +
         ' -c jsdocConfig.json' +
-        ' -r -t ./node_modules/ink-docstrap/template --verbose', (err, output) => {
-            console.log(output);
+        ' -r -t ./node_modules/ink-docstrap/template --verbose',
+        (err) => {
             done(err);
         }
-    );
+    ).stdout.on('data', (data) => console.log(data));
 }
