@@ -1,3 +1,11 @@
-import $ from 'vendors/jquery';
-
-$('h1').addClass('test');
+require(
+    [
+        'jquery',
+        'bootstrap',
+        'domReady!'
+    ],
+    function ($) {
+        console.log('app start');
+        $('h1').addClass('test');
+    }
+);
